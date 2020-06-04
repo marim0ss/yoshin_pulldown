@@ -82,7 +82,7 @@ function isTargetCol(e) {
  点数を出すには？
  https://qiita.com/mashvalue1/items/d1a05b025ee5dc123585  二次元配列から連想配列への変換　*/
 
-function test() {  
+function getHashScore() {  
   const obj = Object.fromEntries([["foo", 1], ["bar", 2]]);
   //console.log(obj);   //  -> { foo: 1, bar: 2 }
   // ----------------------------------------------------------
@@ -129,16 +129,16 @@ function test() {
      for (k = 0; k < hash.length; k++) {
       //console.log(key + "さんの値は、" + hash_ab[key] + "です。") ;
       //console.log('valuesは ',values[0][i])
-      
-      
+     
       if (values[0][i] == hash[k].key ) {
         console.log(hash[k].key + 'が一致しました！')
         console.log('点数は,', hash[k].score, 'です。')
         total_score +=　hash[k].score
-        continue  // 次のループ
       }
-       console.log("total_scoreは、" + total_score + "です。");
+      continue  // 次のループ
     }
+    //continue
+    console.log("total_scoreは、" + total_score + "です。");
   }
   console.log('合計点は' +  total_score + "点です。")
 }
