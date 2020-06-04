@@ -85,15 +85,14 @@ function isTargetCol(e) {
 function test() {  
   const obj = Object.fromEntries([["foo", 1], ["bar", 2]]);
   //console.log(obj);   //  -> { foo: 1, bar: 2 }
-
   // ----------------------------------------------------------
-  // トータルスコア
-  // ----------------------------------------------------------
+  // トータルスコア結果を表示するには？
+  /* ----------------------------------------------------------
   let array_fg = score_sheet.getRange(1, 6, sheet_lastRow, 2).getValues(),  // FG配列を取得
       total_hash_fg = Object.fromEntries(array_fg);
   //console.log('total_hash_ij の中身： ' , total_hash_ij)
   //console.log(total_hash_fg['A: 1億以上'])
-
+  */
 // ----------------------------------------------------------
 // チェックボックスONのとき、行の値を集めて取得し、点数を計算する? or シート側で関数使う
 // ----------------------------------------------------------
