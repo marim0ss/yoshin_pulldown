@@ -95,33 +95,51 @@ function getHashScore() {
   */
 // ----------------------------------------------------------
 // チェックボックスONのとき、行の値を集めて取得し、点数を計算する? or シート側で関数使う
-// ----------------------------------------------------------
-  //まず行取得(2行目限定)
-  let values = use_sheet.getRange(2,1,1,use_last_col).getValues();
-  console.log(values)
-  
+// ----------------------------------------------------------  
   /*共通の名前でハッシュ作るなら？ シートからでなく手打ちで作ってみる--------------------------------
   https://www.sejuku.net/blog/27965
   */
-  let hash =　//上場のハッシュ
-  [
-   {status :'IR情報：上場', key: '50億円以上', score:  5},
-   {status :'IR情報：上場', key: '10億円以上', score:  4},
-   {status :'IR情報：上場', key: '5億円以上',  score:  3}, 
-   {status :'IR情報：上場', key: '5億円未満',  score:  1},
-   {status :'IR情報：上場', key: '２期連続増益', score: 2},
-   {status :'IR情報：上場', key: '２期連続増収', score: 1},
-   {status :'IR情報：上場', key: '２期連続減収', score: -1},
-   {status :'IR情報：上場', key: '２期連続赤字', score: -1},
-   {status :'IR情報：上場', key: '２期連続減益', score: -2},
-   {status :'IR情報：上場', key: '上記以外の業績', score:  0},
-   {status :'IR情報：上場', key: '前期比＋５％以上', score: 1},
-   {status :'IR情報：上場', key: '前期比△５％以上', score: -2},
-   {status :'IR情報：上場', key: '上記以外の変動', score: 0}
-  ]; //取り出し方： hash[0].key -> '50億円以上'   hash[0].score -> 5
-  
+  let up_hash =　//上場のハッシュ
+      [   //取り出し方： hash[0].key -> '50億円以上'   hash[0].score -> 5
+        {status :'IR情報：上場', key: '50億円以上', score:  5},
+        {status :'IR情報：上場', key: '10億円以上', score:  4},
+        {status :'IR情報：上場', key: '5億円以上',  score:  3}, 
+        {status :'IR情報：上場', key: '5億円未満',  score:  1},
+        {status :'IR情報：上場', key: '２期連続増益', score: 2},
+        {status :'IR情報：上場', key: '２期連続増収', score: 1},
+        {status :'IR情報：上場', key: '２期連続減収', score: -1},
+        {status :'IR情報：上場', key: '２期連続赤字', score: -1},
+        {status :'IR情報：上場', key: '２期連続減益', score: -2},
+        {status :'IR情報：上場', key: '上記以外の業績', score:  0},
+        {status :'IR情報：上場', key: '前期比＋５％以上', score: 1},
+        {status :'IR情報：上場', key: '前期比△５％以上', score: -2},
+        {status :'IR情報：上場', key: '上記以外の変動', score: 0}
+      ];
+  let yet_up_hash =　//未上場のハッシュ
+      [
+        {status :'TDB・未上場', key: '5億円以上', score:  5},
+        {status :'TDB・未上場', key: '1億円以上', score:  4},
+        {status :'TDB・未上場', key: '5千万円以上', score:  3},
+        {status :'TDB・未上場', key: '1千万円以上', score:  2},
+        {status :'TDB・未上場', key: '1千万円未満', score:  1},
+        {status :'TDB・未上場', key: '資本金不明', score:   0},
+        {status :'TDB・未上場', key: '黒字', score:   2},
+        {status :'TDB・未上場', key: '赤字', score:  -1},
+        {status :'TDB・未上場', key: '業績不明', score:  0},
+        {status :'TDB・未上場', key: '点数あり（50点以上）', score:  2},
+        {status :'TDB・未上場', key: 'Ｄ評価（50点未満）', score:  1},
+        {status :'TDB・未上場', key: 'データ取得不能', score:  0},
+        {status :'TDB・未上場', key: '上場企業の関連会社である', score:  1},
+        {status :'TDB・未上場', key: '上記以外の資本関係', score:  0}
+      ];
   //まず行取得(2行目限定)
+  let values = use_sheet.getRange(2,1,1,use_last_col).getValues();
+  console.log('values[0][0]は？→ ', values[0][0], 'です');
+  
   let total_score = 0;
+  let hash = [];
+  
+  (values[0][0] == up_hash[0].status) ? hash = up_hash : (values[0][0] == yet_up_hash[0].status) ? hash = yet_up_hash : console.log('いずれにも該当しない') ;
   // ----------------------------------------------------------
   // values[0]と hashのkeyとを比べ、一致したらhashのscore値を足す
   // ----------------------------------------------------------
