@@ -8,6 +8,11 @@ const CATEGORY1_COL_NUM  = 1; // B列
 
 const SCORE_SHEET_NAME     = "score";
 const ss = SpreadsheetApp.getActiveSpreadsheet()
+
+let use_sheet = ss.getSheetByName(USE_SHEET_NAME),
+    use_last_col = use_sheet.getLastColumn(),
+    score_sheet = ss.getSheetByName(SCORE_SHEET_NAME),
+    sheet_lastRow = score_sheet.getLastRow();
 /**
  * 本体
  */
@@ -77,70 +82,25 @@ function isTargetCol(e) {
  点数を出すには？
  https://qiita.com/mashvalue1/items/d1a05b025ee5dc123585  二次元配列から連想配列への変換　*/
 
-function test() {
-  let score_sheet = ss.getSheetByName(SCORE_SHEET_NAME),
-      sheet_lastRow = score_sheet.getLastRow();
-  
+function test() {  
   const obj = Object.fromEntries([["foo", 1], ["bar", 2]]);
   //console.log(obj);   //  -> { foo: 1, bar: 2 }
-  
-  //AB列を連想配列にするには??
-  let array_ab = score_sheet.getRange(1, 1, sheet_lastRow, 2).getValues(),  // AB配列を取得
-      hash_ab = Object.fromEntries(array_ab); 　　// 連想配列作成
-  //console.log("hash_ab['5億円未満'] = " + hash_ab['5億円未満']) // 値の取り出し
-  
-  console.log('hash_abは? ', hash_ab)  
-  /*共通の名前でハッシュ作るなら？ シートからでなく手打ちで作ってみる--------------------------------
-  https://www.sejuku.net/blog/27965
-  let hash =
-  [
-   {status :'IR情報：上場', key: '50億円以上', score:  5},
-   {status :'IR情報：上場', key: '２期連続増益', score: 2},
-   {status :'IR情報：上場', key: '前期比＋５％以上', score: 1}
-  ]
-  取り出し方： hash[0].key -> '50億円以上'   hash[0].score -> 5
-   ---------------------------------------------------------- */
-  
-  // CD配列を取得
-  let array_cd = score_sheet.getRange(1, 3, sheet_lastRow, 2).getValues(),
-      hash_cd = Object.fromEntries(array_cd);
-  /*多次元にした場合
-  let box =[hash_ab, hash_cd]         // [{   } , {    }]
-  console.log('多次元の場合AB列取り出し' , box[0]['5億円未満'])
-  console.log('多次元の場合CD列取り出し' , box[1]['不明'])
-  */
+
   // ----------------------------------------------------------
   // トータルスコア
   // ----------------------------------------------------------
   let array_fg = score_sheet.getRange(1, 6, sheet_lastRow, 2).getValues(),  // FG配列を取得
-      total_hash_fg = Object.fromEntries(array_fg),
-      array_ij = score_sheet.getRange(1, 9, sheet_lastRow, 2).getValues(),  // IJ配列を取得
-      total_hash_ij = Object.fromEntries(array_ij);
+      total_hash_fg = Object.fromEntries(array_fg);
   //console.log('total_hash_ij の中身： ' , total_hash_ij)
   //console.log(total_hash_fg['A: 1億以上'])
-  // ----------------------------------------------------------
-  // プルダウンで選択された値を取得し、点数を集める
-  // ----------------------------------------------------------
-
 
 // ----------------------------------------------------------
-// チェックボックスONのとき、行の値を集めて取得し、点数を計算する?
+// チェックボックスONのとき、行の値を集めて取得し、点数を計算する? or シート側で関数使う
 // ----------------------------------------------------------
-
-  let use_sheet = ss.getSheetByName(USE_SHEET_NAME),
-      use_last_col = use_sheet.getLastColumn()
   //まず行取得(2行目限定)
-  let values = use_sheet.getRange(2,1,1,use_last_col).getValues(),
-      value = [];
+  let values = use_sheet.getRange(2,1,1,use_last_col).getValues();
   console.log(values)
-  console.log(values[0][values[0].length -1]) // 最後の要素
   
-  if (values[0][values[0].length -1]　== '') { // 結果欄が空白の時は計算する
-    console.log('計算する！')
-  }
-}
-
-function myHashTest() {
   /*共通の名前でハッシュ作るなら？ シートからでなく手打ちで作ってみる--------------------------------
   https://www.sejuku.net/blog/27965
   */
@@ -161,13 +121,11 @@ function myHashTest() {
    {status :'IR情報：上場', key: '上記以外の変動', score: 0}
   ]; //取り出し方： hash[0].key -> '50億円以上'   hash[0].score -> 5
   
-  let use_sheet = ss.getSheetByName(USE_SHEET_NAME),
-      use_last_col = use_sheet.getLastColumn()
   //まず行取得(2行目限定)
-  let values = use_sheet.getRange(3,1,1,use_last_col).getValues(),
-      total_score = 0;
-  console.log(values[0][1])
+  let total_score = 0;
+  // ----------------------------------------------------------
   // values[0]と hashのkeyとを比べ、一致したらhashのscore値を足す
+  // ----------------------------------------------------------
   for (i = 1; i < values[0].length; i++) {
      for (k = 0; k < hash.length; k++) {
       //console.log(key + "さんの値は、" + hash_ab[key] + "です。") ;
